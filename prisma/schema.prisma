@@ -2,3 +2,58 @@ datasource db {
   provider = "postgresql"
   url      = env("POSTGRESQL_URL")
 }
+
+model Player {
+  player_id          Int     @id
+  username           String  @unique
+  title              Title
+  avatar             String  @default("")
+  url                String  @default("")
+  name               String  @default("")
+  followers          Int     @default(0)
+  country            String  @default("")
+  location           String  @default("")
+  last_online        Int     @default(0)
+  joined             Int     @default(0)
+  status             String  @default("")
+  is_streamer        Boolean @default(false)
+  twitch_url         String  @default("")
+  verified           Boolean @default(false)
+  league             String  @default("")
+  // Stats
+  fide               Int     @default(0)
+  // Stats - Rapid
+  rapid_rating_best  Int     @default(0)
+  rapid_rating_last  Int     @default(0)
+  rapid_rating_rd    Int     @default(0)
+  rapid_record_win   Int     @default(0)
+  rapid_record_draw  Int     @default(0)
+  rapid_record_loss  Int     @default(0)
+  // Stats - Blitz
+  blitz_rating_best  Int     @default(0)
+  blitz_rating_last  Int     @default(0)
+  blitz_rating_rd    Int     @default(0)
+  blitz_record_win   Int     @default(0)
+  blitz_record_draw  Int     @default(0)
+  blitz_record_loss  Int     @default(0)
+  // Stats - Bullet
+  bullet_rating_best Int     @default(0)
+  bullet_rating_last Int     @default(0)
+  bullet_rating_rd   Int     @default(0)
+  bullet_record_win  Int     @default(0)
+  bullet_record_draw Int     @default(0)
+  bullet_record_loss Int     @default(0)
+}
+
+enum Title {
+  GM
+  WGM
+  IM
+  WIM
+  FM
+  WFM
+  NM
+  WNM
+  CM
+  WCM
+}
