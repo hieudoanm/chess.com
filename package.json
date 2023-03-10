@@ -1,0 +1,17 @@
+{
+  "name": "chess.com",
+  "version": "0.0.1",
+  "description": "chess.com",
+  "main": "index.js",
+  "repository": "git@github.com:hieudoanm/chess.com.git",
+  "author": "hieudoanm <hieumdoan@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "migrate": "prisma format && prisma generate && prisma migrate dev --name init",
+    "studio": "prisma studio"
+  },
+  "devDependencies": {
+    "prisma": "4.11.0"
+  }
+}
