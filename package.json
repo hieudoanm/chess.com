@@ -9,7 +9,8 @@
   "private": true,
   "scripts": {
     "migrate": "prisma format && prisma generate && prisma migrate dev --name init",
-    "studio": "prisma studio"
+    "studio": "prisma studio",
+    "lock": "pigar"
   },
   "devDependencies": {
     "prisma": "4.11.0"
