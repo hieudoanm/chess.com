@@ -1,0 +1,199 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
+generator jsonSchema {
+  provider = "prisma-json-schema-generator"
+}
+
+generator markdown {
+  provider = "prisma-markdown"
+}
+
+model Player {
+  id                    Int      @id @map("id")
+  username              String   @unique @map("username")
+  avatar                String   @default("") @map("avatar")
+  name                  String   @default("") @map("name")
+  title                 Title    @default(GM) @map("title")
+  country               String   @default("") @map("country")
+  countryCode           String   @default("") @map("country_code")
+  status                String   @default("") @map("status")
+  league                String   @default("") @map("league")
+  url                   String   @default("") @map("url")
+  twitchUrl             String   @default("") @map("twitch_url")
+  isStreamer            Boolean  @default(false) @map("is_streamer")
+  verified              Boolean  @default(false) @map("verified")
+  lastOnline            DateTime @default(now()) @map("last_online")
+  joined                DateTime @default(now()) @map("joined")
+  rapidRatingBest       Int      @default(0) @map("rapid_rating_best")
+  rapidRatingLast       Int      @default(0) @map("rapid_rating_last")
+  rapidRatingDeviation  Int      @default(0) @map("rapid_rating_reviation")
+  rapidRecordWin        Int      @default(0) @map("rapid_record_win")
+  rapidRecordDraw       Int      @default(0) @map("rapid_record_draw")
+  rapidRecordLoss       Int      @default(0) @map("rapid_record_loss")
+  blitzRatingBest       Int      @default(0) @map("blitz_rating_best")
+  blitzRatingLast       Int      @default(0) @map("blitz_rating_last")
+  blitzRatingDeviation  Int      @default(0) @map("blitz_rating_reviation")
+  blitzRecordWin        Int      @default(0) @map("blitz_record_win")
+  blitzRecordDraw       Int      @default(0) @map("blitz_record_draw")
+  blitzRecordLoss       Int      @default(0) @map("blitz_record_loss")
+  bulletRatingBest      Int      @default(0) @map("bullet_rating_best")
+  bulletRatingLast      Int      @default(0) @map("bullet_rating_last")
+  bulletRatingDeviation Int      @default(0) @map("bullet_rating_reviation")
+  bulletRecordWin       Int      @default(0) @map("bullet_record_win")
+  bulletRecordDraw      Int      @default(0) @map("bullet_record_draw")
+  bulletRecordLoss      Int      @default(0) @map("bullet_record_loss")
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([id, username])
+  @@map("player")
+}
+
+enum Title {
+  // Open Title
+  GM
+  IM
+  FM
+  CM
+  NM
+  // Woman Title
+  WGM
+  WIM
+  WFM
+  WCM
+  WNM
+  // Arena Title
+  AGM
+  AIM
+  AFM
+  ACM
+}
+
+enum TimeClass {
+  daily
+  classical
+  rapid
+  blitz
+  bullet
+}
+
+enum Result {
+  win
+  fiftymove
+  agreed
+  insufficient
+  repetition
+  stalemate
+  timevsinsufficient
+  checkmated
+  resigned
+  timeout
+  abandoned
+  bughousepartnerlose
+  threecheck
+  kingofthehill
+}
+
+enum Variant {
+  bughouse
+  chess
+  chess960
+  crazyhouse
+  kingofthehill
+  oddschess
+  threecheck
+}
+
+enum Phrase {
+  opening
+  middlegame
+  endgame
+}
+
+model Game {
+  uuid          String    @id @map("uuid")
+  url           String    @map("url")
+  pgn           String    @default("") @map("pgn")
+  timeClass     TimeClass @default(classical) @map("time_class")
+  timeControl   String    @default("") @map("time_control")
+  endTime       DateTime  @default(now()) @map("end_time")
+  rated         Boolean   @default(false) @map("rated")
+  initialSetup  String    @default("") @map("initial_setup")
+  fen           String    @default("") @map("fen")
+  tcn           String    @default("") @map("tcn")
+  rules         Variant   @default(chess) @map("rules")
+  whiteAccuracy Float     @default(0) @map("white_accuracy")
+  whiteRating   Int       @default(0) @map("white_rating")
+  whiteResult   Result    @map("white_result")
+  whiteUsername String    @default("") @map("white_username")
+  whiteKing     Int       @default(0) @map("white_king")
+  whiteQueen    Int       @default(0) @map("white_queen")
+  whiteRook     Int       @default(0) @map("white_rook")
+  whiteBishop   Int       @default(0) @map("white_bishop")
+  whiteKnight   Int       @default(0) @map("white_knight")
+  whitePawn     Int       @default(0) @map("white_pawn")
+  whiteCastling String    @default("") @map("white_castling")
+  blackAccuracy Float     @default(0) @map("black_accuracy")
+  blackRating   Int       @default(0) @map("black_rating")
+  blackResult   Result    @map("black_result")
+  blackUsername String    @default("") @map("black_username")
+  blackKing     Int       @default(0) @map("black_king")
+  blackQueen    Int       @default(0) @map("black_queen")
+  blackRook     Int       @default(0) @map("black_rook")
+  blackBishop   Int       @default(0) @map("black_bishop")
+  blackKnight   Int       @default(0) @map("black_knight")
+  blackPawn     Int       @default(0) @map("black_pawn")
+  blackCastling String    @default("") @map("black_castling")
+  opening       String    @default("") @map("opening")
+  openingName   String    @default("") @map("opening_name")
+  endPhrase     Phrase    @default(endgame) @map("end_phrase")
+  termination   String    @default("") @map("termination")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  @@index([uuid])
+  @@map("game")
+}
+
+model Opening {
+  eco       String   @default("") @map("eco")
+  name      String   @default("") @map("name")
+  fen       String   @default("") @map("fen")
+  pgn       String   @default("") @map("pgn")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@id([eco, name, pgn])
+  @@map("opening")
+}
+
+model Country {
+  cca2      String   @unique @default("") @map("cca2")
+  cca3      String   @unique @default("") @map("cca3")
+  name      String   @default("") @map("name")
+  common    String   @default("") @map("common")
+  official  String   @default("") @map("official")
+  flag      String   @default("") @map("flag")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@id([cca2, cca3])
+  @@map("country")
+}
